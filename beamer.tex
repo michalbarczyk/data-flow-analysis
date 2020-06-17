@@ -131,7 +131,7 @@ path.
     
     \end{tikzpicture}
   
-  
+  Control flow graph for $b*b-4*a*c$ \\(flow order marked with arrows)
 
 
 \end{frame}
@@ -258,7 +258,7 @@ path.
 
 \begin{frame}
   \frametitle{Simple symbolic interpretation}
-  \begin{block}{Simple symbolic interpretation requierments}
+  \begin{block}{Simple symbolic interpretation requirements}
   \begin{itemize}
       \item The program must consist of flow-of-control structures with one entry point and one exit point only.
       \item The values of the property must form a lattice, which means that the values can be ordered in a sequence $v_1...v_n$ such that there is no operation that will transform $v_j$ into $v_i$; we will write $v_i < v_j$ for all $i<j$.
@@ -279,20 +279,47 @@ violate requirement 1 from the previous slide. In order to handle them, we use \
   
   \end{block}
   
-\end{frame}
-
-\begin{frame}
-  \frametitle{Methods of collecting context information from AST}
+  \begin{block}{Algorithm}
+  \textbf{Full symbolic interpretation} consists of performing the simple symbolic interpretation algorithm repeatedly until properties stop changing. Instead of one property list, we need separate list for each label (a place algorithm can go to) in the routine. We perform the simple symbolic interpretation algorithm as before, adding \textbf{special actions} at goto-jumps and labels.
+  \end{block}
   
 \end{frame}
 
 \begin{frame}
-  \frametitle{Methods of collecting context information from AST}
+  \frametitle{Full symbolic interpretation}
+  
+  \begin{block}{Algorithm}
+  Special actions mean:
+  \begin{itemize}
+      \item Each time we meet a
+jump to a label $L$, we merge our present list into L\textquotesingle s list and continue with the empty
+    \item When we meet the label $L$ itself, we merge in our present list, and continue with
+the merged list.
+  \end{itemize}
+  It looks like we have a list of situations at all positions label $L$ can be reached from (for each label $L$). Actually, it is not so easy, because we have to consider a following situation: 
+
+If we first meet the label $L$ and then a jump to it, the list at $L$ was not complete,
+since it may be going to be modified by that jump. To solve it, when we are at the end of the
+routine, we have to run the simple symbolic interpretation algorithm again, using the
+lists we have already created for the labels. We have to repeat this, until none of properties
+changes any more.
+ 
+  \end{block}
   
 \end{frame}
 
 \begin{frame}
-  \frametitle{Methods of collecting context information from AST}
+  \frametitle{Data-flow equations}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Data-flow equations}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Data-flow equations}
   
 \end{frame}
 
