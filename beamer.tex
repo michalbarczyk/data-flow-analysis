@@ -71,7 +71,7 @@ path.}
   \begin{block}{}
     \justify{Using this technique, the threading routine for a binary expression could, for example, have the following form:} 
     
-    \lstinputlisting[language=Python]{procedure1.py}
+    \lstinputlisting[language=Python]{code 1}
     
     \justify{This makes the present node the successor of the last node of the right operand and then registers it as the next dynamically last node.}
   \end{block}
@@ -88,7 +88,8 @@ path.}
    
         %Nodes
         \node   (last) {$last$};
-        \node   (minus) [below=1 of last] {-};
+        \node (l0) [left=2 of last] {$l\_0$};
+        \node   (minus) [below=0.7 of last] {-};
         \node   (star1) [below left=2 of minus] {*};
         \node   (b1) [below left=1 of star1] {b};
         \node   (b2) [below right=1 of star1] {b};
@@ -117,12 +118,13 @@ path.}
         \draw[->] (c.north east) .. controls +(right:3mm)  .. (star3.east);
         \draw[->] (star3.east) .. controls +(right:3mm)  .. (star2.east);
         \draw[->] (star2.east) .. controls +(right:3mm)  .. (minus.east);
-        
         \draw[->] (last.south) .. controls +(down:3mm)  .. (minus.north);
+        
+        \draw[->] (l0) .. controls +(down:6mm)  .. (b1.north);
     
     \end{tikzpicture}
   
-  Control flow graph for $b*b-4*a*c$ \\(flow order marked with arrows after threading)
+  Control flow graph for $b*b-4*a*c$ \\(flow order marked with arrows after threading;\\ $l\_0$ points to $last$ pointer position before threading)
 
 
 \end{frame}
@@ -151,7 +153,7 @@ path.}
 \begin{frame}
   \frametitle{Methods of collecting context information from AST}
   
-  \lstinputlisting[language=Python]{procedureIf.py}
+  \lstinputlisting[language=Python]{code 2}
   
 \end{frame}
 
@@ -162,24 +164,27 @@ path.}
   
     
     \node   (if) {$if$};
-    \node (x) [left=2 of if] {$X$}
+    \node (l0) [left=2 of if] {$l\_0$};
     \node   (cond) [below left=1.5 of if] {$condition$};
     \node   (then) [below =1.5 of if] {$then$};
     \node   (else) [below right=1.5 of if] {$else$};
-    \node   (endif) [below right=1.5 of then] {$end\;if$};
+    \node   (endif) [below right=1.5 of then] {$end\_if$};
     \node   (last) [above right=4 of endif] {$last$};
     
-    \draw[<-] (if.south west) .. controls +(left:3mm)  .. (cond.north);
+    \draw[<-] (if.south west) .. controls +(left:3mm)  .. (cond.north east);
     \draw[->] (if.south) .. controls +(down:3mm)  .. (then.north);
     \draw[->] (if.south east) .. controls +(right:3mm)  .. (else.north);
     \draw[->] (then.south) .. controls +(down:3mm)  .. (endif.west);
     \draw[->] (else.south) .. controls +(down:3mm)  .. (endif.north);
     \draw[->] (last.south) .. controls +(down:3mm)  .. (endif.east);
     
+    \draw[->] (l0) .. controls +(down:6mm)  .. (cond.north west);
+    
     \end{tikzpicture}
     \newline
     \newline
-    AST and control-flow graph of an if-statement after threading
+    AST and control-flow graph of an if-statement after threading \\
+    ($l\_0$ points to $last$ pointer position before threading)
   
 \end{frame}
 
