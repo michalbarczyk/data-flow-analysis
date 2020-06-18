@@ -99,9 +99,6 @@ path.}
         \node   (c) [below right=1 of star3] {c};
         
         
-        % \node      (rightsquare)       [right=of maintopic] {3};
-        % \node       (lowercircle)       [below=of maintopic] {4};
-        
         %Lines
         \draw[-] (minus.south west) -- (star1.north east);
         \draw[-] (minus.south east) -- (star2.north west);
@@ -125,7 +122,7 @@ path.}
     
     \end{tikzpicture}
   
-  Control flow graph for $b*b-4*a*c$ \\(flow order marked with arrows)
+  Control flow graph for $b*b-4*a*c$ \\(flow order marked with arrows after threading)
 
 
 \end{frame}
@@ -161,9 +158,28 @@ path.}
 \begin{frame}
   \frametitle{Methods of collecting context information from AST}
   
-  \begin{alertblock}{5.5}
-
-    \end{alertblock}
+  \begin{tikzpicture}[>=stealth, every node/.style={circle, draw, minimum size=0.75cm}]
+  
+    
+    \node   (if) {$if$};
+    \node (x) [left=2 of if] {$X$}
+    \node   (cond) [below left=1.5 of if] {$condition$};
+    \node   (then) [below =1.5 of if] {$then$};
+    \node   (else) [below right=1.5 of if] {$else$};
+    \node   (endif) [below right=1.5 of then] {$end\;if$};
+    \node   (last) [above right=4 of endif] {$last$};
+    
+    \draw[<-] (if.south west) .. controls +(left:3mm)  .. (cond.north);
+    \draw[->] (if.south) .. controls +(down:3mm)  .. (then.north);
+    \draw[->] (if.south east) .. controls +(right:3mm)  .. (else.north);
+    \draw[->] (then.south) .. controls +(down:3mm)  .. (endif.west);
+    \draw[->] (else.south) .. controls +(down:3mm)  .. (endif.north);
+    \draw[->] (last.south) .. controls +(down:3mm)  .. (endif.east);
+    
+    \end{tikzpicture}
+    \newline
+    \newline
+    AST and control-flow graph of an if-statement after threading
   
 \end{frame}
 
@@ -184,7 +200,9 @@ path.}
   \justify{In this example we assume that we arrive with a stack containing two variables x and y.\\
   x is initialized and y is valued 5. The condition is y $>$ 0.}
   \end{block}
-  wykres
+  \begin{center}
+      \includegraphics[scale=0.45]{510.jpg}
+  \end{center}
 \end{frame}
 
 \begin{frame}
@@ -474,7 +492,9 @@ obtained by following the graph backwards. To this end we need a backwardsoperat
 
 \begin{frame}
   \frametitle{Live analysis by data-flow equations}
-  5.25
+  \begin{center}
+      \includegraphics[scale=0.45]{525.jpg}
+  \end{center}
 \end{frame}
 
 \begin{frame}
