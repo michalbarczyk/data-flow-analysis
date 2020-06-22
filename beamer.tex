@@ -56,11 +56,11 @@
 % \end{definition}
 
 \begin{block}{Control-flow graph}
-\justify{For each AST node we need to know its flow-of-control successor(s). We can represent it as an additional data structure where every node has pointer or pointers to its flow-of-control successor. Pointers can be visualised on orginal AST.}
+\justify{For each AST node we need to know its flow-of-control successor(s). We can represent it as an additional data structure where every node has pointer or pointers to its flow-of-control successor(s). Pointers can be visualised on orginal AST.}
 \end{block}
 
 \begin{block}{Threading the tree}
-\justify{Threading is a method of constructing control-flow graph. For each node threading routine detects production describing node and calls threading routine on its children recoursively. Each instance of threading routine is aware of global variable \emph{last\_node\_pointer} pointing to the last node processed on the controlflow
+\justify{Threading is a method of constructing control-flow graph. For each node threading routine detects production describing node and calls threading routine on its children recoursively. Each instance of threading routine is aware of global variable \emph{last\_node\_pointer} pointing to the last node processed on the control-flow
 path.}
 \end{block}
    
@@ -194,7 +194,7 @@ path.}
   \begin{block}{Symbolic interpretation}
   \justify{During program execution, the control follow one possible path through the control-flow graph. The behaviour of a code block is determined by the values of the variables created/assigned before execution of this block and this block can change values of variables determining a following execution (path in control-flow graph). Much contextual information about variables can be deduced statically by
   simulating process of execution at compile
-  time.This technique is called \textbf{symbolic interpretation} or simulation on the stack.}
+  time. This technique is called \textbf{symbolic interpretation} or simulation on the stack.}
   \end{block}
   
 \end{frame}
@@ -217,7 +217,7 @@ path.}
   \justify{\textbf{Simple symbolic interpretation} allows us to check for the use of uninitialized variables. In order to do it, we create compile-time representation of the local stack as list of pairs \emph{(name, property)}}. 
   \begin{itemize}
     \item At the beginning property list is empty or contains parameters with properties since parameters are obviously initialized.
-    \item Then we follow the path on control-flow graph processing encountered varibles.
+    \item Then we follow the path on control-flow graph processing encountered variables.
     \item When a declaration is met, the declared name is added to the property list with status: initialized or uninitialized.
     
     \end{itemize}
@@ -231,11 +231,11 @@ path.}
   
   \begin{block}{Simple symbolic interpretation}
   \begin{itemize}
-    \item When the control-flow splits (eg. if-node) there is made a copy of property list and simulated execution is done for then-part and for else-part.
+    \item When the control-flow splits (e.g. if-node) there is made a copy of property list and simulated execution is done for then-part and for else-part.
     \item When an assignment is met, the status of the destination variable is set to
     initialized, after processing the source expression first, since it may contain the same
     variable.
-    \item When the variable is used (eg. in expression), its status is checked in property list. If its status is uninitialized/possibly uninitialized we are given error/warning.
+    \item When the variable is used (e.g. in expression), its status is checked in property list. If its status is uninitialized/possibly uninitialized we are given error/warning.
     \end{itemize}
  
   \end{block}
@@ -249,7 +249,7 @@ path.}
   \justify{When the interpreter meets a for statement it passes through the bands and the inintalization of the controlled variable. It then makes a copy of the list which is called the \textbf{loop-exit list}. This list collects the information at the exit of the loop.\\}
   \begin{itemize}
       \item If loop-exit statement is found inside the loop the callected list is merged into loop-exit list and interpretation continues with empty list.\\
-      \item If return statement is found inside loop or we reach the end of the routine present list is merged into loop-exit list and interpretation sontinues with empty list.
+      \item If return statement is found inside loop or we reach the end of the routine present list is merged into loop-exit list and interpretation continues with empty list.
   \end{itemize}
   \end{block}
   
@@ -260,7 +260,7 @@ path.}
   \begin{block}{Stack representations in the control-flow graph of a for loop}
   \begin{itemize}
       \item If return statement is found outside loop interpreter can raise an error.
-      \item If the end of the routine node is reached interpreter checks all variable identifiers in the list. If on has status \emph{Uninitialized} it never was initialized and a warning can be given.
+      \item If the end of the routine node is reached interpreter checks all variable identifiers in the list. If one has status \emph{uninitialized} it never was initialized and a warning can be given.
   \end{itemize}
   \justify{
   \textbf{Note that the interpreter ignores the back jump of the for-statement}.}
@@ -305,7 +305,7 @@ violate requirement 1 from the previous slide. In order to handle them, we use \
   Special actions mean:
   \begin{itemize}
       \item Each time we meet a
-jump to a label $L$, we merge our present list into L\textquotesingle s list and continue with the empty
+jump to a label $L$, we merge our present list into L\textquotesingle s list and continue with the empty list.
     \item When we meet the label $L$ itself, we merge in our present list, and continue with
 the merged list.
   \end{itemize}
@@ -341,7 +341,7 @@ fixed propagation mechanism.}
 
 \begin{frame}{Data-flow equations}
     \begin{block}{Semantics description}
-     In order to describe semantics for each node N two constatn sets are defined:
+     In order to describe semantics for each node $N$ two constant sets are defined:
      \begin{itemize}
          \item $GEN(N)$
          \item $KILL(N)$
@@ -375,9 +375,9 @@ any value here} in its KILL set, which is actually a finite representation of an
   \end{block}
   
   \begin{block}{Data-flow equations interpretation}
-  \justify{The first data-flow equation tells us how to obtain the IN set of all nodes when we
-know the OUT sets of all nodes, and the second data-flow equation tells us how
-to obtain the OUT set of a node if we know its IN set (and its GEN and KILL
+  \justify{The first data-flow equation tells us how to obtain the $IN$ set of all nodes when we
+know the $OUT$ sets of all nodes, and the second data-flow equation tells us how
+to obtain the $OUT$ set of a node if we know its $IN$ set (and its $GEN$ and $KILL$
 sets, but they are constants). This suggests \textbf{closure algoritm} for establising the values of $IN(N)$ and $OUT(N)$ sets.}
   \end{block}
   
@@ -393,13 +393,13 @@ sets, but they are constants). This suggests \textbf{closure algoritm} for estab
   \end{itemize}
   Initializations:
   \begin{itemize}
-      \item The IN set of the top node is initialized with information established externally
-      \item For all other nodes N, IN(N) and OUT(N) are set to empty
+      \item The $IN$ set of the top node is initialized with information established externally
+      \item For all other nodes $N$, $IN(N)$ and $OUT(N)$ are set to empty
   \end{itemize}
   Inference rules:
   \begin{itemize}
-      \item  For any node N, $IN(N)$ must contain
-      \item For any node N, $OUT(N)$ must contain
+      \item  For any node $N$, $IN(N)$ contains input rules
+      \item For any node $N$, $OUT(N)$ contains output rules
   \end{itemize}
   
   \end{block}
@@ -447,7 +447,7 @@ given node in the code, since if it is dead, the memory allocated to it can be r
 \justify{The start of the live range of a variable $V$ is marked by a node that contains value of $V$ definition. The end of the live range is marked by a node that contains the last
 use of the value of V. The problem is that it is hard to recognize this node.
 Information about the future use of variable values cannot be obtained in a
-straightforward strategy using symbolic interpretation or dataflow
+straightforward strategy using symbolic interpretation or data-flow
 equations. Fortunately, this methods can be modified so they can solve this and
 other \enquote{backward flow} problems. }
  \end{block}
@@ -460,7 +460,7 @@ other \enquote{backward flow} problems. }
   \frametitle{Live analysis by symbolic interpretation}
   \begin{block}{}
   \justify{Since symbolic interpretation follows the control-flow graph, it has no way of looking ahead and finding out if there is another use of the value of a given variable V,
-and so it has no way to set some isLastUseOfV attribute of the node it is visiting.
+and so it has no way to set some \textit{isLastUseOfV} attribute of the node it is visiting.
 The general solution to this kind of problem is to collect the addresses of the values
 we cannot compute and to fill them in when we can. Such lists of addresses are
 called \textbf{backpatch lists} and the activity of filling in values when the time is ripe is
@@ -473,10 +473,10 @@ called \textbf{backpatching}.}
   \begin{block}{Backpatching}
   \justify{Backpatching means that for each variable V we keep in our stack
 representation a set of pointers to nodes that contain the latest, most recent uses of
-the value of V; note that when looking backwards from a node we can have more
+the value of $V$; note that when looking backwards from a node we can have more
 than one most recent use, provided they are along different paths. Now, when we
-arrive at a node that uses the value of V, we set the attributes isLastUseOfV of the
-nodes in the backpatch list for V to false and set the same attribute of the present
+arrive at a node that uses the value of $V$, we set the attributes \textit{isLastUseOfV} of the
+nodes in the backpatch list for $V$ to false and set the same attribute of the present
 node to true. The rationale is that we assume that each use is the last use, until we
 are proven wrong by a subsequent use.\\
 It is in the nature of backpatching that both the pointer sets and the attributes
@@ -488,7 +488,7 @@ referred to by the pointers in these sets change as the algorithm progresses.}
   \frametitle{Live analysis by data-flow equations}
   \begin{block}{Live analysis by data-flow equations}
   \justify{Information about what happens further on in the control-flow graph can only be
-obtained by following the graph backwards. To this end we need a backwardsoperating version of the data-flow equations.\\}
+obtained by following the graph backwards. To this end we need a backwards operating version of the data-flow equations.\\}
   \end{block}
   \begin{block}{}
   \justify{Basically the set $IN$ and $OUT$ have changed roles and \textit{predecessor} has changed to \textit{successor}. Note that $KILL$ information still has to be erased first, before $GEN$ information is merged in.}
@@ -505,9 +505,9 @@ obtained by following the graph backwards. To this end we need a backwardsoperat
 \begin{frame}
   \frametitle{Live analysis by data-flow equations}
   \begin{block}{Description}
-\justify{The algoritm starts by setting the bits in the $OUT$ to 00: First because x does not live at the end of the scope and second because y even does not exist there.\\
-Following the control-flow graph we find firs apperance of x and w set bits in out to 10. Following data equations algoritm finds out that $IN$ is 10.\\
-The next step is assignment to x. This sets $GEN$ set to empty and $KILL$ set contains \textit{x lives there}. After applying the second data-flow equation the $IN$ set is set to 00.\\
+\justify{The algoritm starts by setting the bits in the $OUT$ to 00: First because $x$ does not live at the end of the scope and second because $y$ even does not exist there.\\
+Following the control-flow graph we find first apperance of $x$ and we set bits in out to 10. Following data equations algoritm finds out that $IN$ is 10.\\
+The next step is assignment to $x$. This sets $GEN$ set to empty and $KILL$ set contains \textit{$x$ lives there}. After applying the second data-flow equation the $IN$ set is set to 00.\\
 Continuing this way, we propagate the bits upwards, splitting them at the end-if node and merging them at the if-node, until we reach the beginning of the block with the bits 00.} 
   \end{block}
 \end{frame}
@@ -516,11 +516,20 @@ Continuing this way, we propagate the bits upwards, splitting them at the end-if
   \frametitle{Live analysis by data-flow equations}
   \begin{block}{Several observations}
 \begin{itemize}
-    \item The union in the data-flow equations can be implemented as a simple Boolean OR, since if a variable is live along one path from a node it is live at that node
-    \item  It is important to note that the diagram does not contain the bit combination 11, so there is no node at which both variables are live. This means that they canshare the same register or memory location. Indeed, the live range of x in the right branch of the if-statement stops at the statement print(x+3) and does not overlap the live range of y.
-    \item  The nodes with the last use of the value of a variable V can be recognized by having a 1 for the liveness of V in the $IN$ set and a 0 in the $OUT$ set.
+    \item The union in the data-flow equations can be implemented as a simple Boolean OR, since if a variable is live along one path from a node it is live at that node.
+    \item  It is important to note that the diagram does not contain the bit combination 11, so there is no node at which both variables are live. This means that they can share the same register or memory location. Indeed, the live range of $x$ in the right branch of the if-statement stops at the statement $print(x+3)$ and does not overlap the live range of $y$.
+    \item  The nodes with the last use of the value of a variable $V$ can be recognized by having a 1 for the liveness of $V$ in the $IN$ set and a 0 in the $OUT$ set.
 \end{itemize}
   \end{block}
+\end{frame}
+
+\begin{frame}{Bibliography}
+\begin{block}{Bibliography}
+\begin{itemize}
+    \item \textbf{Modern Compiler Design}, Second Edition; Dick Grune, Kees van Reeuwijk, Henri E. Bal, Ceriel J.H. Jacobs, Koen Langendoen
+\end{itemize}
+
+\end{block}
 \end{frame}
 
 
